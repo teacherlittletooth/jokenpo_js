@@ -4,7 +4,7 @@ let ptsPlayer = 0;
 let ptsCpu = 0;
 let turn = 0;
 let game = false; //Controlar se o jogo continua
-let choose = false; //Controlar se a jogada foi aceita
+let choose = false; //Controlar se a jogada foi aceita no primeiro turno
 let optionPlayer = null;
 let optionCpu = null;
 

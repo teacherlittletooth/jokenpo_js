@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="logo.jpg" type="image/x-icon">
     <title>Jokenpo</title>
     <style>
         body {
@@ -12,7 +13,23 @@
             top: 50%;
             transform: translate(-50%, -50%);
             font-family: 'Courier New', Courier, monospace;
+            text-align: center;
         }
+
+        pre {
+            font-size: 14pt;
+        }
+
+        button {
+            margin-top: 30px;
+            cursor: pointer;
+        }
+
+        #turnos {
+            display: none;
+            margin-top: 30px;
+        }
+
     </style>
 </head>
 <body>
@@ -21,6 +38,22 @@
 |    JOKENPO    |
 -----------------
 </pre>
+<div style="display: block;">--------------------Placar--------------------</div>
+    <div style="display: flex; flex-direction: row; justify-content: center;">
+        <div id="player"></div><div>:&nbsp;</div>
+        <div id="ptsPlayer"></div><div style="width: 100%;"></div>
+        <div id="empate">Empate:&nbsp;</div>
+        <div id="ptsEmpate"></div><div style="width: 100%;"></div>
+        <div id="cpu">Computador:&nbsp;</div>
+        <div id="ptsCpu"></div>
+    </div>
+<div style="display: block;">----------------------------------------------</div>
+</div>
+
+<div id="turnos"></div>
+<button id="status">Começar!</button>
+
+<script src="Jogo.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

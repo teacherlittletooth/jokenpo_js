@@ -1,12 +1,13 @@
-var jogo = Jogo.newGame;
+let jogo = Jogo.newGame;
 console.log(jogo);
 
-var countTurn = 0;
-var ptsCpu = 0;
-var ptsPlayer = 0;
-var ptsEmpate = 0;
-var jogadaPlayer;
-var jogadaCpu;
+let countTurn = 0;
+let ptsCpu = 0;
+let ptsPlayer = 0;
+let ptsEmpate = 0;
+let jogadaPlayer;
+let jogadaCpu;
+let goPlay = 0; //Para auziliar no setInterval
 
 const divPlayer = document.getElementById("player");
 const divPtsPlayer = document.getElementById("ptsPlayer");
@@ -58,60 +59,75 @@ btnStatus.addEventListener("click", ()=>{
     turnos.style.display = "block";
     turnos.innerHTML = "Nº de jogadas: " + jogo.getTurn;
     jogo.setGame = true;
-    jogada(); //Aqui inicia-se o loop do game
+    runGame();
 });
 
-function jogada() {
-    do {
 
-        jogadaPlayer = Number(prompt("Escolha:\n1 - Pedra\n2 - Papel\n3 - Tesoura\n===> Para sair, pressione 'Cancelar' ou insira qualquer outro caracter"));
-        console.log(jogadaPlayer);
-
-        if(jogadaPlayer == 1 || jogadaPlayer == 2 || jogadaPlayer == 3){
-            jogadaCpu = Math.floor(Math.random() * 3) + 1;
-        
-            checkPlay(jogadaPlayer, jogadaCpu);
-            //Contagem de turnos
-            countTurn++;
-            jogo.setTurn = countTurn;
-            turnos.innerHTML = "Nº de jogadas: " + jogo.getTurn;
-            //console.log(jogo.getTurn);
-        
-        } else {
-            if(!confirm("Deseja continuar jogando?")){
-                jogo.setGame = false;
-                alert("Fim do jogo!\n" + victory());
-                turnos.innerHTML = "Nº de jogadas: " + jogo.getTurn + "<hr>" + victory() + "<br><br>";
-            } 
-        }
-
-    } while(jogo.getGame);
+function runGame() { // Função para simular loop, porém com tempo de atraso.
+    setTimeout(() => {
+        jogada(); //Aqui inicia-se o loop do game
+    }, 2000);
 }
 
+function jogada() {
+    //do {
+        jogadaPlayer = Number(prompt("Escolha:\n1 - Pedra\n2 - Papel\n3 - Tesoura\n===> Para sair, pressione 'Cancelar' ou insira qualquer outro caracter"));
+        console.log(jogadaPlayer);
+        
+            if(jogadaPlayer == 1 || jogadaPlayer == 2 || jogadaPlayer == 3){
+                jogadaCpu = Math.floor(Math.random() * 3) + 1;
+            
+                checkPlayAndSetPoint(jogadaPlayer, jogadaCpu);
+                //Contagem de turnos
+                countTurn++;
+                jogo.setTurn = countTurn;
+                turnos.innerHTML = "Nº de jogadas: " + jogo.getTurn;
+                //console.log(jogo.getTurn);
+                runGame(); //Chamando o novo turno.
+            } else {
+                if(!confirm("Deseja continuar jogando?")){
+                    jogo.setGame = false;
+                    alert("Fim do jogo!\n" + victory());
+                    turnos.innerHTML = "Nº de jogadas: " + jogo.getTurn + "<hr>" + victory() + "<br><br>";
+                } 
+        }
+    //} while(jogo.getGame);
+}
 
-function checkPlay(player, cpu) {
+function checkPlayAndSetPoint(player, cpu) {
+    let message = jogo.getNamePlayer + " => " + getMove(jogadaPlayer) + "\n" +
+                "cpu => " + getMove(jogadaCpu) + "\n*******************\n";
+
+    if(player == 1 && cpu == 2 || player == 2 && cpu == 1) {
+        message += "Papel envolve Pedra!";
+    } else if(player == 2 && cpu == 3 || player == 3 && cpu == 2) {
+        message += "Tesoura corta Papel!";
+    } else if(player == 3 && cpu == 1 || player == 1 && cpu == 3) {
+        message += "Pedra quebra Tesoura!";
+    }
+    
     if(player == cpu) {
-        alert("Empate! Ninguém pontuou.");
+        alert(message + "\nEmpate! Ninguém pontuou.");
         ptsEmpate++;
         jogo.setPtsEmpate = ptsEmpate;
         divPtsEmpate.innerText = jogo.getPtsEmpate;
     } else if(player == 1 && cpu == 2) {
-        alert("Ponto para CPU!");
+        alert(message + "\nPonto para CPU!");
         ptsCpu++;
         jogo.setPtsCpu = ptsCpu;
         divPtsCpu.innerText = jogo.getPtsCpu;
     } else if(player == 2 && cpu == 3) {
-        alert("Ponto para CPU!");
+        alert(message + "\nPonto para CPU!");
         ptsCpu++;
         jogo.setPtsCpu = ptsCpu;
         divPtsCpu.innerText = jogo.getPtsCpu;
     } else if(player == 3 && cpu == 1) {
-        alert("Ponto para CPU!");
+        alert(message + "\nPonto para CPU!");
         ptsCpu++;
         jogo.setPtsCpu = ptsCpu;
         divPtsCpu.innerText = jogo.getPtsCpu;
     } else {
-        alert("Ponto para "+ jogo.getNamePlayer +"!");
+        alert(message + "\nPonto para "+ jogo.getNamePlayer +"!");
         ptsPlayer++;
         jogo.ptsPlayer = ptsPlayer;
         divPtsPlayer.innerText = jogo.getPtsPlayer;
@@ -129,5 +145,14 @@ function victory() {
         return "Vitória de "+jogo.getNamePlayer+"!";
     } else {
         return "Derrota! Computador venceu!";
+    }
+}
+
+
+function getMove(move) {
+    switch(move) {
+        case 1: return "Pedra";
+        case 2: return "Papel";
+        case 3: return "Tesoura";
     }
 }

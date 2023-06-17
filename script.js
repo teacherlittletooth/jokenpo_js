@@ -83,7 +83,7 @@ function jogada() {
                 jogo.setTurn = countTurn;
                 turnos.innerHTML = "Nº de jogadas: " + jogo.getTurn;
                 //console.log(jogo.getTurn);
-                runGame(); //Chamando o novo turno.
+                runGame(); //Chamando o novo turno
             } else {
                 if(!confirm("Deseja continuar jogando?")){
                     jogo.setGame = false;

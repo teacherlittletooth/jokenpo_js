@@ -27,7 +27,7 @@ function getPlay(number) {
 //Conições de vitória, derrota e empate
 function setPoint() {
     if(optionPlayer == optionCpu) {
-        return "Empate! Ninguém pontuou.\n";
+        return "\n/// Empate! Ninguém pontuou! ///\n";
     } else if(optionPlayer == 1 && optionCpu == 2
             || optionPlayer == 2 && optionCpu == 3
             || optionPlayer == 3 && optionCpu == 3) {
@@ -100,7 +100,16 @@ process.stdin.on("data", (enter) => {
                     process.stdout.write(finalResult());
                 } else {
                     process.stdout.write("\n" + namePlayer + ": " + getPlay(optionPlayer));
-                    process.stdout.write("\ncpu: " + getPlay(optionCpu) + "\n\n");
+                    process.stdout.write("\ncpu: " + getPlay(optionCpu));
+
+                    if(optionPlayer == 1 && optionCpu == 2 || optionPlayer == 2 && optionCpu == 1) {
+                        process.stdout.write("\n+++ Papel envolve Pedra! +++\n\n");
+                    } else if(optionPlayer == 2 && optionCpu == 3 || optionPlayer == 3 && optionCpu == 2) {
+                        process.stdout.write("\n--- Tesoura corta Papel! ---\n\n");
+                    } else if(optionPlayer == 3 && optionCpu == 1 || optionPlayer == 1 && optionCpu == 3) {
+                        process.stdout.write("\n*** Pedra quebra Tesoura ***\n\n");
+                    }
+
                     process.stdout.write(setPoint());
                     turn++;
                     process.stdout.write(showPoints());
